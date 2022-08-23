@@ -26,6 +26,12 @@
               <td>{{ $product->price }}</td>
               <td>{{ $product->stock }}</td>
               <td>{{ $product->company_id }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn-detail"
+                  onclick="location.href='/product/{{ $product->id }}'">詳細</button>
+              </td>
           </tr>
       @endforeach
       </tbody>

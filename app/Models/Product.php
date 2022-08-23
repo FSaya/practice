@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Product extends Model
 {
     public function getProductsDate() {
-        // articlesテーブルからデータを取得
+        // productsテーブルからデータを取得
         $products = DB::table('products')->get();
 
         return $products;
