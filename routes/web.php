@@ -18,7 +18,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-//商品一覧
+
+//商品一覧画面
 Route::get('/list', 'TestUserController@showList')->name('list');
-//商品詳細
-Route::get('/product/{id}', 'TestUserController@showDetail')->name('detail');
+
+//商品登録画面
+Route::get('/create', 'TestUserController@showCreate')->name('create');
+
+//商品登録
+Route::post('/store', 'TestUserController@exeStore')->name('store');
+
+//商品詳細画面
+Route::get('/{id}', 'TestUserController@showDetail')->name('detail');

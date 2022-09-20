@@ -30,7 +30,7 @@
                 <button
                   type="button"
                   class="btn-detail"
-                  onclick="location.href='/product/{{ $product->id }}'">詳細</button>
+                  onclick="location.href='/mstest/public/{{ $product->id }}'">詳細</button>
               </td>
           </tr>
       @endforeach
