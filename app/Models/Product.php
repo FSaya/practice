@@ -19,10 +19,10 @@ class Product extends Model
 
     //リレーション
     public function company() {
-      return $this->belongsTo('App\Models\Company');
+      return $this->belongsTo('App\Models\Company','company_id','id');
     }
 
     //Mass Assignment ホワイトリスト方式
-    protected $fillable = ['product_name','price','stock'];
+    protected $fillable = ['product_name','company_id','price','stock','img_path','comment'];
 
 }

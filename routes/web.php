@@ -30,3 +30,9 @@ Route::post('/store', 'TestUserController@exeStore')->name('store');
 
 //商品詳細画面
 Route::get('/{id}', 'TestUserController@showDetail')->name('detail');
+
+//商品編集画面
+Route::get('/edit/{id}', 'TestUserController@showEdit')->name('edit');
+
+//商品編集
+Route::post('/update', 'TestUserController@exeUpdate')->name('update');

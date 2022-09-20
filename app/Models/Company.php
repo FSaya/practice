@@ -10,7 +10,7 @@ class Company extends Model
 {
   //リレーション
   public function products() {
-    return $this->hasMany('App\Models\Product');
+    return $this->hasMany('App\Models\Product','company_id','id');
   }
 
   public function getCompaniesDate() {

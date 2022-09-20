@@ -28,6 +28,10 @@
     <button
       type="button"
       class="btn-detail"
-      onclick="location.href='/edit/{{ $product->id }}'">編集</button>
+      onclick="location.href='/mstest/public/edit/{{ $product->id }}'">編集</button>
+    <button
+      type="button"
+      class="btn-detail"
+      onclick="location.href='/mstest/public/list'">戻る</button>
   </div>
 @endsection
