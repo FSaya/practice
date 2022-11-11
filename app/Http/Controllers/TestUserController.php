@@ -89,7 +89,7 @@ class TestUserController extends Controller
         //商品を登録
         //Product::create($inputs);
         if ($img) {
-          $img_path = $request->file('img_path')->storeAs('img', $img,'public');
+          $img_path = $request->file('img_path')->storeAs('', $img,'public');
           if ($img_path) {
             $product->img_path = $img_path;
           }

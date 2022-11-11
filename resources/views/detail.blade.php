@@ -14,9 +14,9 @@
     <br>
     <span>商品画像:
       @if ($product->img_path === null)
-        <img src="/mstest/public/storage/IMG_8673.jpg">
+        <img src="/mstest/public/storage/img/IMG_8673.jpg">
       @else
-        <img src="{{ asset('/storage/'.$product->img_path) }}">
+        <img src="{{ asset('/storage/img/'.$product->img_path) }}">
       @endif
     </span>
     <br>

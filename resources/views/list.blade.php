@@ -44,14 +44,14 @@
               <td>{{ $product->id }}</td>
               <td>
                 @if ($product->img_path === null)
-                  <img src="/mstest/public/storage/IMG_8673.jpg">
+                  <img src="/mstest/public/storage/img/IMG_8673.jpg">
                 @else
-                  <img src="{{ asset('/storage/'.$product->img_path) }}">
+                  <img src="{{ asset('/storage/img/'.$product->img_path) }}">
                 @endif
               </td>
               <td>{{ $product->product_name }}</td>
               <td>{{ $product->price }}円</td>
-              <td>{{ $product->stock }}個</td>
+              <td>{{ $product->stock }}</td>
               <td>{{ $product->company['company_name'] }}</td>
               <td>
                 <button
