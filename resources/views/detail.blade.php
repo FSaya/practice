@@ -12,15 +12,21 @@
   <div class="detail">
     <span>商品情報ID: {{ $product->id }}</span>
     <br>
-    <span>商品画像: {{ $product->img_path }}</span>
+    <span>商品画像:
+      @if ($product->img_path === null)
+        <img src="/mstest/public/storage/IMG_8673.jpg">
+      @else
+        <img src="{{ asset('/storage/'.$product->img_path) }}">
+      @endif
+    </span>
     <br>
     <span>商品名: {{ $product->product_name }}</span>
     <br>
-    <span>メーカー名: {{ $product->company_id }}</span>
+    <span>メーカー名: {{ $product->company['company_name'] }}</span>
     <br>
-    <span>価格: {{ $product->price }}</span>
+    <span>価格: {{ $product->price }}円</span>
     <br>
-    <span>在庫数: {{ $product->stock }}</span>
+    <span>在庫数: {{ $product->stock }}個</span>
     <br>
     <span>コメント: {{ $product->comment }}</span>
   </div>

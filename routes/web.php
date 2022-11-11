@@ -36,3 +36,6 @@ Route::get('/edit/{id}', 'TestUserController@showEdit')->name('edit');
 
 //商品編集
 Route::post('/update', 'TestUserController@exeUpdate')->name('update');
+
+//商品削除
+Route::post('/delete/{id}', 'TestUserController@exeDelete')->name('delete');

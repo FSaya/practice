@@ -14,12 +14,24 @@ class TestUserController extends Controller
       *
       * @return view
       */
-    public function showList() {
-        // インスタンス生成
-        $model = new Product();
-        $products = $model->getProductsDate();
+    public function showList(Request $request) {
 
-        return view('list', ['products' => $products]);
+        $companies = Company::all();
+        $products = Product::with('company')->get();
+
+        $company_id = $request->input('company_id');
+        $keyword = $request->input('keyword');
+        $query = Product::query();
+        if(!empty($keyword)) {
+            $query->where('product_name', 'LIKE', "%{$keyword}%");
+        }
+        if(!empty($company_id)) {
+            $query->where('company_id', 'LIKE', "%{$company_id}%");
+        }
+
+        $products = $query->get();
+
+        return view('list', compact('products','companies','keyword'));
     }
      /**
       *商品詳細画面を表示
@@ -58,12 +70,32 @@ class TestUserController extends Controller
      */
     public function exeStore(ProductRequest $request) {
       //商品のデータを受け取る
-      $inputs = $request->all();
+      //$inputs = $request->all();
+
+      // インスタンス生成
+      $product = new Product();
+      $product->product_name = $request->input('product_name');
+      $product->company_id = $request->input('company_id');
+      $product->price = $request->input('price');
+      $product->stock = $request->input('stock');
+      $product->comment = $request->input('comment');
+
+      $img = $request->file('img_path')->getClientOriginalName();
+
+      //$img_path = $request->file('img_path')->storeAs('img','public');
 
       \DB::beginTransaction();
       try {
         //商品を登録
-        Product::create($inputs);
+        //Product::create($inputs);
+        if ($img) {
+          $img_path = $request->file('img_path')->storeAs('img', $img,'public');
+          if ($img_path) {
+            $product->img_path = $img_path;
+          }
+        }
+        $product->save();
+        //Product::create(['img_path' => $img_path]);
         \DB::commit();
       } catch (\Throwable $e) {
         \DB::rollback();
@@ -124,6 +156,30 @@ class TestUserController extends Controller
         }
 
         \Session::flash('err_msg','商品を編集しました。');
-        return redirect(route('list'));
+        return redirect()->back();
       }
+
+      /**
+       *商品削除
+       * @param int $id
+       * @return view
+       */
+        public function exeDelete($id) {
+         // インスタンス生成
+
+         if (empty($id)) {
+           \Session::flash('err_msg','データがありません。');
+           return redirect(route('list'));
+         }
+
+         try {
+           //商品を削除
+           Product::destroy($id);
+         } catch (\Throwable $e) {
+           abort(500);
+         }
+
+         \Session::flash('err_msg','削除しました。');
+         return redirect(route('list'));
+        }
 }

@@ -6,7 +6,7 @@
   </div>
 
   <div class="links">
-    <form action="{{ route('store') }}" method="post">
+    <form action="{{ route('store') }}" method="post" enctype="multipart/form-data">
       @csrf
 
       <div class="form-group">
@@ -21,9 +21,9 @@
           <label for="company_id">メーカー</label>
           <select class="form-control" id="company_id" name="company_id">
               <option value="">メーカー名を選んでください。</option>
-            @foreach ($companies as $company)
-              <option value="{{ $company->id }}">{{ $company->company_name }}</option>
-            @endforeach
+              @foreach ($companies as $company)
+                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+              @endforeach
           </select>
           @if($errors->has('company_id'))
               <p>{{ $errors->first('company_id') }}</p>

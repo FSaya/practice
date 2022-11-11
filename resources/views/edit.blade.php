@@ -22,12 +22,13 @@
       <div class="form-group">
           <label for="company_id">メーカー</label>
           <select class="form-control" id="company_id" name="company_id">
-              <option value="">メーカー名を選んでください。</option>
-              <option value="6" @if( old('company_id') === '6') selected @endif >株式会社 小林</option>
-              <option value="7" @if( old('company_id') === '7') selected @endif >有限会社 藤本</option>
-              <option value="8" @if( old('company_id') === '8') selected @endif >株式会社 近藤</option>
-              <option value="9" @if( old('company_id') === '9') selected @endif >有限会社 青山</option>
-              <option value="10" @if( old('company_id') === '10') selected @endif >有限会社 桐山</option>
+            @foreach ($companies as $company)
+            @if ($product->company_id == $company->id)
+              <option value="{{ $company->id }}" selected>{{ $company->company_name }}</option>
+            @else
+              <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+            @endif
+            @endforeach
           </select>
           @if($errors->has('company_id'))
               <p>{{ $errors->first('company_id') }}</p>
@@ -60,7 +61,8 @@
 
       <div class="form-group">
           <label for="img_path">商品画像</label>
-          <input type="file" accept="image/*" class="form-control" id="img_path" name="img_path" placeholder="img_path" value="{{ $product->img_path }}">
+          <input type="file" accept="image/*" class="form-control" id="img_path" name="img_path" placeholder="img_path">
+          <label for="img_path">{{ $product->img_path }}</label>
           @if($errors->has('img_path'))
               <p>{{ $errors->first('img_path') }}</p>
           @endif
@@ -70,7 +72,7 @@
       <button
         type="button"
         class="btn-detail"
-        onclick="location.href='/mstest/public/{id}'">戻る</button>
+        onclick="location.href='/mstest/public/{{ $product->id }}'">戻る</button>
     </form>
   </div>
 @endsection
