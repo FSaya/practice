@@ -16,22 +16,16 @@ class TestUserController extends Controller
       */
     public function showList(Request $request) {
 
-        $companies = Company::all();
-        $products = Product::with('company')->get();
+      $model = new Product();
 
-        $company_id = $request->input('company_id');
-        $keyword = $request->input('keyword');
-        $query = Product::query();
-        if(!empty($keyword)) {
-            $query->where('product_name', 'LIKE', "%{$keyword}%");
-        }
-        if(!empty($company_id)) {
-            $query->where('company_id', 'LIKE', "%{$company_id}%");
-        }
+      $companies = Company::all();
 
-        $products = $query->get();
+      $company_id = $request->input('company_id');
+      $keyword = $request->input('keyword');
 
-        return view('list', compact('products','companies','keyword'));
+      $products = $model->getProductsDate($company_id, $keyword);
+
+      return view('list', compact('products','companies','keyword'));
     }
      /**
       *商品詳細画面を表示
@@ -41,14 +35,10 @@ class TestUserController extends Controller
     public function showDetail($id) {
         // インスタンス生成
 
-        $product = Product::find($id);
+      $model = new Product();
+      $product = $model->getProductDate($id);
 
-        if (is_null($product)) {
-          \Session::flash('err_msg','データがありません。');
-          return redirect(route('list'));
-        }
-
-        return view('detail', ['product' => $product]);
+      return view('detail', ['product' => $product]);
     }
     /**
      *商品登録画面を表示
@@ -82,8 +72,6 @@ class TestUserController extends Controller
 
       $img = $request->file('img_path')->getClientOriginalName();
 
-      //$img_path = $request->file('img_path')->storeAs('img','public');
-
       \DB::beginTransaction();
       try {
         //商品を登録
@@ -102,7 +90,7 @@ class TestUserController extends Controller
         abort(500);
       }
 
-      \Session::flash('err_msg','商品を登録しました。');
+      \Session::flash('err_msg',config('message.store_date'));
       return redirect(route('create'));
     }
 
@@ -114,15 +102,11 @@ class TestUserController extends Controller
       public function showEdit($id) {
        // インスタンス生成
 
-       $product = Product::find($id);
+       $model1 = new Product();
+       $product = $model1->getProductDate($id);
 
-       if (is_null($product)) {
-         \Session::flash('err_msg','データがありません。');
-         return redirect(route('list'));
-       }
-
-       $model = new Company();
-       $companies = $model->getCompaniesDate();
+       $model2 = new Company();
+       $companies = $model2->getCompaniesDate();
 
        return view('edit', ['product' => $product], ['companies' => $companies]);
       }
@@ -155,7 +139,7 @@ class TestUserController extends Controller
           abort(500);
         }
 
-        \Session::flash('err_msg','商品を編集しました。');
+        \Session::flash('err_msg',config('message.update_date'));
         return redirect()->back();
       }
 
@@ -168,7 +152,7 @@ class TestUserController extends Controller
          // インスタンス生成
 
          if (empty($id)) {
-           \Session::flash('err_msg','データがありません。');
+           \Session::flash('err_msg',config('message.no_date'));
            return redirect(route('list'));
          }
 
@@ -179,7 +163,7 @@ class TestUserController extends Controller
            abort(500);
          }
 
-         \Session::flash('err_msg','削除しました。');
+         \Session::flash('err_msg',config('message.delete_date'));
          return redirect(route('list'));
         }
 }
