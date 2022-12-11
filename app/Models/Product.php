@@ -36,6 +36,23 @@ class Product extends Model
       return $product;
     }
 
+    public function getUpdateProductDate($inputs) {
+      $product = Product::find($inputs['id']);
+      $product->fill([
+        'product_name' => $inputs['product_name'],
+        'company_id' => $inputs['company_id'],
+        'price' => $inputs['price'],
+        'stock' => $inputs['stock'],
+        'comment' => $inputs['comment'],
+        'img_path' => $inputs['img_path']
+      ]);
+      return $product;
+    }
+
+    public function deleteProductDate($id) {
+      return Product::destroy($id);
+    }
+
     //リレーション
     public function company() {
       return $this->belongsTo('App\Models\Company','company_id','id');

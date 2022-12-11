@@ -123,15 +123,8 @@ class TestUserController extends Controller
         \DB::beginTransaction();
         try {
           //商品を編集
-          $product = Product::find($inputs['id']);
-          $product->fill([
-            'product_name' => $inputs['product_name'],
-            'company_id' => $inputs['company_id'],
-            'price' => $inputs['price'],
-            'stock' => $inputs['stock'],
-            'comment' => $inputs['comment'],
-            'img_path' => $inputs['img_path']
-          ]);
+          $model = new Product();
+          $product = $model->getUpdateProductDate($inputs);
           $product->save();
           \DB::commit();
         } catch (\Throwable $e) {
@@ -158,7 +151,8 @@ class TestUserController extends Controller
 
          try {
            //商品を削除
-           Product::destroy($id);
+           $model = new Product();
+           $product = $model->deleteProductDate($id);
          } catch (\Throwable $e) {
            abort(500);
          }
